@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="css/jquery.datetimepicker.css">
+</head>
+<body>
+	<h1>Orders</h1>
+	<table>
+		<thead>
+			<tr><th>Customer</th><th>Machine</th><th>Tasks</th></tr>
+		</thead>
+		<tbody data-bind="foreach: orders">
+			<tr>
+				<td><select data-bind="options: $root.customers, value: customer, optionsText: 'name'"></select></td>
+				<td><select data-bind="options: $data.customer().machines, value: machine, optionsText: 'name'"></select></td>
+				<td data-bind="with: $data">
+					<table>
+						<thead>
+							<tr><th>Part</th><th>Start</th><th>End</th></tr>
+						</thead>
+						<tbody data-bind="foreach: tasks">
+							<tr>
+								<td><input data-bind="text: part" /></td>
+								<td><input data-bind="datePicker: start" /></td>
+								<td><input data-bind="datePicker: end" /></td>
+							</tr>
+						</tbody>
+					</table>
+					<button data-bind="click: addTask">add Task</button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<button data-bind="click: addOrder">add Order</button>
+	
+	<script type="text/javascript" src="js/lib/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/lib/jquery.datetimepicker.full.min.js"></script>
+	<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
+	<script type="text/javascript" src="js/model.js"></script>
+</body>
+</html>
