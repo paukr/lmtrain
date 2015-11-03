@@ -16,13 +16,15 @@
 				<td data-bind="with: $data">
 					<table>
 						<thead>
-							<tr><th>Part</th><th>Start</th><th>End</th></tr>
+							<tr><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
 						</thead>
 						<tbody data-bind="foreach: tasks">
 							<tr>
-								<td><input data-bind="text: part" /></td>
-								<td><input data-bind="datePicker: start" /></td>
-								<td><input data-bind="datePicker: end" /></td>
+								<td><input data-bind="value: part" /></td>
+								<td><input data-bind="datePicker: startDate, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
+								<td><input data-bind="datePicker: startTime, params: { datepicker: false, format:'H:i' }" readonly/></td>
+								<td><input data-bind="datePicker: endDate, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
+								<td><input data-bind="datePicker: endTime, params: { datepicker: false, format:'H:i' }" readonly/></td>
 							</tr>
 						</tbody>
 					</table>
@@ -36,6 +38,7 @@
 	<script type="text/javascript" src="js/lib/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery.datetimepicker.full.min.js"></script>
 	<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
+	<script type="text/javascript" src="js/lib/jaydata.min.js"></script>
 	<script type="text/javascript" src="js/model.js"></script>
 </body>
 </html>
