@@ -1,12 +1,13 @@
 "use strict";
 
-function MainModel() {
+function MainModel(db) {
 	var self = this;
 	self.orders = ko.observableArray();
-	self.customers = [
-		new Customer("Peter Fischer GmbH", [ new Machine("Fräse"), new Machine("Drucker"), new Machine("Presse") ]),
-		new Customer("Hans Dampf Ldt.", [ new Machine("Pumpe"), new Machine("Säge") ]),
-	];
+	self.customers = ko.observableArray();
+	db.customer.toArray(self.customers);
+	db.customer.forEach(function(e) {
+		//
+	});
 	self.addOrder = function() {
 		self.orders.push(new Order());
 	};
@@ -38,8 +39,6 @@ function Task() {
 	this.endDate = ko.observable();
 	this.endTime = ko.observable();
 };
-
-ko.applyBindings(new MainModel());
 
 ko.bindingHandlers.datePicker = {
 	init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
