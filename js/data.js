@@ -58,22 +58,8 @@ db.onReady(function() {
 			{ name: "Pumpe", customer: hans },
 			{ name: "Säge", customer: hans }
 		]);
-		//var newOrder = db.order.add({ machine: fraese });
-		db.saveChanges().then(function() {
-			var newOrder = db.order.add({ machine: fraese });
-			db.saveChanges();
-		});
-			/*
-			db.saveChanges().then(function() {
-				var newOrder = db.order.add({ machine: fraese });
-				db.saveChanges();
-				
-				db.saveChanges().then(function() {
-					db.task.add({ order: newOrder, part: "Schraube", start: new Date(), end: new Date() });
-					db.saveChanges().then(applyBinding);
-				});
-				
-			});*/
-
+		var order = db.order.add({ machine: fraese });
+		db.task.add({ order: order, part: "Schraube", start: new Date(), end: new Date() });
+		db.saveChanges().then(applyBinding);
 	});
 });
