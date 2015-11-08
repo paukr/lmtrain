@@ -37,11 +37,8 @@ function MainModel(db) {
 		
 	self.orders = ko.observableArray([]);
 	self.orders.subscribe(function(array) {
-		//insert a new task to each order for adding tasks
+		//insert a new task to each new order for adding tasks
 		array.forEach(function(order) {
-			if (order.hasOwnProperty("newTask")) {
-				return;
-			}
 			order.newTask = createNewTaskObservable(order);
 		});
 	});
