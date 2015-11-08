@@ -34,8 +34,8 @@ $data.Entity.extend("Order", {
 $data.EntityContext.extend("Context", {
 	customer: { type: $data.EntitySet, elementType: "Customer" },
 	machine: { type: $data.EntitySet, elementType: "Machine" },
-	order: { type: $data.EntitySet, elementType: "Order" },
-	task: { type: $data.EntitySet, elementType: "Task" }
+	_order: { type: $data.EntitySet, elementType: "Order" },
+	task: { type: $data.EntitySet, elementType: "Task" },
 });
 
 var db = new Context({ provider: "local", dbCreation: $data.storageProviders.DbCreationType.DropAllExistingTables });
@@ -58,8 +58,9 @@ db.onReady(function() {
 			{ name: "Pumpe", customer: hans },
 			{ name: "Säge", customer: hans }
 		]);
-		var order = db.order.add({ machine: fraese });
+		var order = db._order.add({ machine: fraese });
 		db.task.add({ order: order, part: "Schraube", start: new Date(), end: new Date() });
 		db.saveChanges().then(applyBinding);
 	});
 });
+

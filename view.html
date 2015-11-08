@@ -6,28 +6,26 @@
 <body>
 	<button data-bind="click: reset">Reset</button>
 	<h1>Orders</h1>
-	<table>
+	<table border=1>
 		<thead>
 			<tr><th>Customer</th><th>Machine</th><th>Tasks</th></tr>
 		</thead>
 		<tbody data-bind="foreach: orders">
 			<tr>
-				<td data-bind="text: machine().customer().name" />
+				<td data-bind="text: machine().customer.name" />
 				<td data-bind="text: machine().name" />
-				<td data-bind="with: $data">
-					<table>
+				<td>
+					<table border=1>
 						<thead>
 							<tr><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
 						</thead>
 						<tbody data-bind="foreach: tasks">
 							<tr>
 								<td data-bind="text: part" />
-								<!--
-								<td data-bind="text: startDate" />
-								<td data-bind="text: startTime" />
-								<td data-bind="text: endDate" />
-								<td data-bind="text: endTime" />
-								-->
+								<td data-bind="text: moment(start).format('DD.MM.YYYY')" />
+								<td data-bind="text: moment(start).format('HH:mm:ss')" />
+								<td data-bind="text: moment(end).format('DD.MM.YYYY')" />
+								<td data-bind="text: moment(end).format('HH:mm:ss')" />
 							</tr>
 						</tbody>
 					</table>
@@ -68,10 +66,11 @@
 	
 	<script type="text/javascript" src="js/lib/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery.datetimepicker.full.min.js"></script>
-	<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
+	<script type="text/javascript" src="js/lib/knockout-3.3.0.debug.js"></script>
 	<script type="text/javascript" src="js/lib/jaydata.js"></script>
 	<script type="text/javascript" src="js/lib/jaydatamodules/knockout.js"></script>
 	<script type="text/javascript" src="js/lib/jaydataproviders/SqLiteProvider.js"></script>
+	<script type="text/javascript" src="js/lib/moment.js"></script>
 	<script type="text/javascript" src="js/data.js"></script>
 	<script type="text/javascript" src="js/model.js"></script>
 </body>

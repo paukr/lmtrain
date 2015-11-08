@@ -4,7 +4,11 @@ function MainModel(db) {
 	var self = this;
 	
 	self.orders = ko.observableArray([]);
-	//db.order.toArray(self.orders);
+	db._order
+		.include("machine")
+		.include("machine.customer")
+		.include("tasks")
+		.toArray(self.orders);
 	
 	self.customers = ko.observableArray([]);
 	//db.customer.include("machines").toArray(self.customers);
