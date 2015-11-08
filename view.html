@@ -47,35 +47,7 @@
 		
 		</tfoot>
 	</table>
-	<!--
-	EDIT TEMPLATE
-	<table>
-			<tr>
-				<td><select data-bind="options: $root.customers, value: customer, optionsText: 'name'"></select></td>
-				<td><select data-bind="options: $data.customer().machines, value: machine, optionsText: 'name'"></select></td>
-				<td data-bind="with: $data">
-					
-					<table>
-						<thead>
-							<tr><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
-						</thead>
-						<tbody data-bind="foreach: tasks">
-							<tr>
-								
-								<td><input data-bind="datePicker: startDate, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
-								<td><input data-bind="datePicker: startTime, params: { datepicker: false, format:'H:i' }" readonly/></td>
-								<td><input data-bind="datePicker: endDate, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
-								<td><input data-bind="datePicker: endTime, params: { datepicker: false, format:'H:i' }" readonly/></td>
-							</tr>
-						</tbody>
-					</table>
-					<button data-bind="click: addTask">add Task</button>
-					
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	-->
+
 	<script type="text/html" id="edit-order-template">
 		<tr>
 			<td><button data-bind="click: createOrder, enable: selectedCustomer() !== undefined && selectedMachine() !== undefined">+</button></td>
