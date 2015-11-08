@@ -4,23 +4,24 @@
 	<link rel="stylesheet" href="css/jquery.datetimepicker.css">
 </head>
 <body>
-	<button data-bind="click: reset">Reset</button>
 	<h1>Orders</h1>
 	<table border=1>
 		<thead>
-			<tr><th>Customer</th><th>Machine</th><th>Tasks</th></tr>
+			<tr><th></th><th>Customer</th><th>Machine</th><th>Tasks</th></tr>
 		</thead>
 		<tbody data-bind="foreach: orders">
 			<tr>
+				<td><button data-bind="click: $root.removeOrder">-</button></td>
 				<td data-bind="text: machine().customer.name" />
 				<td data-bind="text: machine().name" />
 				<td>
 					<table border=1>
 						<thead>
-							<tr><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
+							<tr><th></th><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
 						</thead>
 						<tbody data-bind="foreach: tasks">
 							<tr>
+								<td><button data-bind="click: $root.removeTask">-</button></td>
 								<td data-bind="text: part" />
 								<td data-bind="text: moment(start).format('DD.MM.YYYY')" />
 								<td data-bind="text: moment(start).format('HH:mm:ss')" />
@@ -28,10 +29,23 @@
 								<td data-bind="text: moment(end).format('HH:mm:ss')" />
 							</tr>
 						</tbody>
+						<tfoot>
+							<tr>
+								<td><button data-bind="click: $root.addTask, enable: newTask.ValidationErrors().length === 0">+</button></td>
+								<td><input data-bind="value: newTask.part" /></td>
+								<td><input data-bind="datePicker: newTask.start, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
+								<td><input data-bind="datePicker: newTask.start, params: { datepicker: false, format:'H:i' }" readonly/></td>
+								<td><input data-bind="datePicker: newTask.end, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
+								<td><input data-bind="datePicker: newTask.end, params: { datepicker: false, format:'H:i' }" readonly/></td>
+							</tr>
+						</tfoot>
 					</table>
 				</td>
 			</tr>
 		</tbody>
+		<tfoot data-bind="template: { name: 'edit-order-template' }">
+		
+		</tfoot>
 	</table>
 	<!--
 	EDIT TEMPLATE
@@ -47,7 +61,7 @@
 						</thead>
 						<tbody data-bind="foreach: tasks">
 							<tr>
-								<td><input data-bind="value: part" /></td>
+								
 								<td><input data-bind="datePicker: startDate, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
 								<td><input data-bind="datePicker: startTime, params: { datepicker: false, format:'H:i' }" readonly/></td>
 								<td><input data-bind="datePicker: endDate, params: { timepicker: false, format:'d.m.Y' }" readonly/></td>
@@ -62,7 +76,13 @@
 		</tbody>
 	</table>
 	-->
-	<button data-bind="click: addOrder">add Order</button>
+	<script type="text/html" id="edit-order-template">
+		<tr>
+			<td><button data-bind="click: createOrder, enable: selectedCustomer() !== undefined && selectedMachine() !== undefined">+</button></td>
+			<td><select data-bind="options: customers, value: selectedCustomer, optionsText: 'name', optionsCaption: '...'""></select></td>
+			<td><select data-bind="options: selectedCustomer() !== undefined ? selectedCustomer().machines : null, value: selectedMachine, optionsText: 'name', , optionsCaption: '...'"></select></td>
+		</tr>
+	</script>
 	
 	<script type="text/javascript" src="js/lib/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery.datetimepicker.full.min.js"></script>

@@ -3,34 +3,83 @@
 function MainModel(db) {
 	var self = this;
 	
-	self.orders = ko.observableArray([]);
-	db._order
-		.include("machine")
-		.include("machine.customer")
-		.include("tasks")
-		.toArray(self.orders);
-	
+	self.createOrder = function() {
+		var machine = self.selectedMachine();
+		self.selectedCustomer(undefined);
+		self.selectedMachine(undefined);
+		var order = new Order({ machine: machine });
+		db._order.add(order);
+		db.saveChanges().then(refreshOrders);
+	};
+	self.removeOrder = function(order) {
+		var orderEntity = order.getEntity();
+		db._order.remove(orderEntity);
+		orderEntity.tasks.forEach(function(task) {
+			db.task.remove(task);
+		});
+		db.saveChanges().then(refreshOrders);
+	};
+	self.addTask = function(order) {
+		var task = order.newTask.getEntity();
+		order.newTask = createNewTaskObservable(order);
+		var taskEntity = db.task.add(task);
+		db.saveChanges().then(refreshOrders);
+	};
+	self.removeTask = function(task) {
+		db.task.remove(task);
+		db.saveChanges().then(refreshOrders);
+	};
+
 	self.customers = ko.observableArray([]);
-	//db.customer.include("machines").toArray(self.customers);
+	db.customer
+		.include("machines")
+		.toArray(self.customers);
+		
+	self.orders = ko.observableArray([]);
+	self.orders.subscribe(function(array) {
+		//insert a new task to each order for adding tasks
+		array.forEach(function(order) {
+			if (order.hasOwnProperty("newTask")) {
+				return;
+			}
+			order.newTask = createNewTaskObservable(order);
+		});
+	});
+	refreshOrders();
+		
+	self.selectedCustomer = ko.observable();
+	self.selectedMachine = ko.observable();
 	
-	self.addOrder = function() {
-		var order = new Order();
-		self.orders.push(order.asKoObservable());
+	function refreshOrders() {
+		db._order
+			.include("machine")
+			.include("machine.customer")
+			.include("tasks")
+			.toArray(self.orders);
 	};
-	self.reset = function() {
-		
+	
+	function createNewTaskObservable(order) {
+		var task = new Task({ order: order.getEntity() });
+		var observable = task.asKoObservable();
+		var validate = function() {
+			task.isValid();
+		}
+		//force ValidationErrors to be set
+		validate();
+		//call isValid on changes to update ValidationErrors
+		observable.part.subscribe(validate);
+		observable.start.subscribe(validate);
+		observable.end.subscribe(validate);
+		return observable;
 	};
-	self.save = function() {
-		
-	};
-}
+};
 
 ko.bindingHandlers.datePicker = {
 	init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {
 		var options = allBindings().params || {};
 		options.onChangeDateTime = function(dp, input) {
 			var value = valueAccessor();
-			value(input.val());
+			value(dp);
 		};
 		options.startDate = ko.unwrap(valueAccessor());
 		ko.utils.domNodeDisposal.addDisposeCallback(element, function () {

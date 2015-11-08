@@ -5,7 +5,7 @@ $data.Entity.extend("Customer", {
     name: { type: "string", required: true },
 	
     machines: { type: "Array", elementType: "Machine", inverseProperty: "customer" },
-	orders: { type: "Array", elementType: "Order", inverseProperty: "customer" },
+	//orders: { type: "Array", elementType: "Order", inverseProperty: "customer" },
 });
 
 $data.Entity.extend("Machine", {
