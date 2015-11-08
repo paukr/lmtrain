@@ -2,43 +2,24 @@
 
 function MainModel(db) {
 	var self = this;
-	self.orders = ko.observableArray();
-	self.customers = ko.observableArray();
-	db.customer.toArray(self.customers);
-	db.customer.forEach(function(e) {
-		//
-	});
+	
+	self.orders = ko.observableArray([]);
+	//db.order.toArray(self.orders);
+	
+	self.customers = ko.observableArray([]);
+	//db.customer.include("machines").toArray(self.customers);
+	
 	self.addOrder = function() {
-		self.orders.push(new Order());
+		var order = new Order();
+		self.orders.push(order.asKoObservable());
+	};
+	self.reset = function() {
+		
+	};
+	self.save = function() {
+		
 	};
 }
-
-function Order() {
-	var self = this;
-	self.customer = ko.observable();
-	self.machine = null;
-	self.tasks = ko.observableArray();
-	self.addTask = function() {
-		self.tasks.push(new Task());
-	};
-};
-
-function Customer(name, machines) {
-	this.name = name;
-	this.machines = machines;
-};
-
-function Machine(name) {
-	this.name = name;
-};
-
-function Task() {
-	this.part = ko.observable();
-	this.startDate = ko.observable();
-	this.startTime = ko.observable();
-	this.endDate = ko.observable();
-	this.endTime = ko.observable();
-};
 
 ko.bindingHandlers.datePicker = {
 	init: function(element, valueAccessor, allBindings, viewModel, bindingContext) {

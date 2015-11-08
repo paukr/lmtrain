@@ -4,6 +4,7 @@
 	<link rel="stylesheet" href="css/jquery.datetimepicker.css">
 </head>
 <body>
+	<button data-bind="click: reset">Reset</button>
 	<h1>Orders</h1>
 	<table>
 		<thead>
@@ -11,9 +12,37 @@
 		</thead>
 		<tbody data-bind="foreach: orders">
 			<tr>
+				<td data-bind="text: machine().customer().name" />
+				<td data-bind="text: machine().name" />
+				<td data-bind="with: $data">
+					<table>
+						<thead>
+							<tr><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
+						</thead>
+						<tbody data-bind="foreach: tasks">
+							<tr>
+								<td data-bind="text: part" />
+								<!--
+								<td data-bind="text: startDate" />
+								<td data-bind="text: startTime" />
+								<td data-bind="text: endDate" />
+								<td data-bind="text: endTime" />
+								-->
+							</tr>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!--
+	EDIT TEMPLATE
+	<table>
+			<tr>
 				<td><select data-bind="options: $root.customers, value: customer, optionsText: 'name'"></select></td>
 				<td><select data-bind="options: $data.customer().machines, value: machine, optionsText: 'name'"></select></td>
 				<td data-bind="with: $data">
+					
 					<table>
 						<thead>
 							<tr><th>Part</th><th>Start Date</th><th>Start Time</th><th>End Date</th><th>End Time</th></tr>
@@ -29,17 +58,20 @@
 						</tbody>
 					</table>
 					<button data-bind="click: addTask">add Task</button>
+					
 				</td>
 			</tr>
 		</tbody>
 	</table>
+	-->
 	<button data-bind="click: addOrder">add Order</button>
 	
 	<script type="text/javascript" src="js/lib/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery.datetimepicker.full.min.js"></script>
 	<script type="text/javascript" src="js/lib/knockout-3.3.0.js"></script>
-	<script type="text/javascript" src="js/lib/jaydata.min.js"></script>
-	<script type="text/javascript" src="js/lib/jaydatamodules/knockout.min.js"></script>
+	<script type="text/javascript" src="js/lib/jaydata.js"></script>
+	<script type="text/javascript" src="js/lib/jaydatamodules/knockout.js"></script>
+	<script type="text/javascript" src="js/lib/jaydataproviders/SqLiteProvider.js"></script>
 	<script type="text/javascript" src="js/data.js"></script>
 	<script type="text/javascript" src="js/model.js"></script>
 </body>
